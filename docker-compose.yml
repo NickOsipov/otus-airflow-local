@@ -1,10 +1,7 @@
 version: '3'
 services:
-  # Постгрес база в отдельном контейнере
   postgres:
-    # Устанавливаем готовый образ
     image: postgres
-    # Задаем глобальные переменные для доступа к PG
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
@@ -15,19 +12,13 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  # # Airflow в отдельном контейнере
   airflow:
-    # Сборка из Dockerfile
     build: .
     restart: always
-    # Определяет порядок запуска сервисов
-    # Будем ждать postgres
     depends_on:
       - postgres
-    # Пробрасываем порты
     ports:
       - 8001:8080
-    # Пробрасываем папку с дагами
     volumes:
       - ./airflow/dags:/usr/local/airflow/dags
       - ./airflow/plugins:/root/airflow/plugins
@@ -40,10 +31,6 @@ services:
     ports:
       - 8080:8080
 
-# Задав таким образом вольюмы
-# нам не нужно заботиться о том где будет папка
-# В которой они будут лежать
-# Для баз данных и логов такой способ более простой и безопасный
 volumes:
   pgdata:
   logs:
