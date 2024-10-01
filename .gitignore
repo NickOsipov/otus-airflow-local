@@ -1,0 +1,11 @@
+.DS_Store
+*.log
+airflow/dag.py
+*.pyc
+__pycache__/
+sandbox/
+.venv
+venv
+.env
+config/airflow.cfg
+airflow-sa.json
