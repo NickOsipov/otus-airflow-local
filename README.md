@@ -1,34 +1,33 @@
+# OTUS. Batch Mode. Airflow Local
+
+
 Порядок действий
 
 1. Создать инфраструктуру
     ```bash
-    bash create_infra.sh
+    make create-infra
     ```
-
-2. Заполнить креды в коде из файла airflow-sa.json
+2. Обучить модель
+    ```bash
+    make train
+    ```
+3. Загрузить данные для инференса и модель в S3
+    ```bash
+    make upload-data
+    make upload-model
+    ```
+4. Запустить локальный Airflow
+    ```bash
+    make up
+    ```
+5. Добавить variables.json в UI Airflow:
+    ```bash
+    http:\\localhost:8001\
    
-3. Обучить модель
-    ```bash
-    python3 train.py
+    # user
+    airflow
+
+    # pass
+    12345678
     ```
-
-4. Загрузить данные для инференса и модель в S3
-    ```bash
-    bash upload.sh
-    ```
-
-5. Запустить локальный Airflow
-    ```bash
-    docker-compose up -d --build
-    ```
-
-6. Выбрать DAG в UI и нажать Trigger DAG
-   ```bash
-   http:\\localhost:8001\
-   
-   # user
-   airflow
-
-   # pass
-   12345678
-   ```
+7. Выбрать нужный DAG в UI и нажать Trigger DAG
