@@ -54,12 +54,12 @@ def main():
     """
     Main function.
     """
-    data = load_data(os.path.join("data", "dataset.csv"))
+    data = load_data(os.path.join("data", "train.csv"))
     X_train, X_test, y_train, y_test = prepare_data(data)
     model = train_model(X_train, y_train)
     mae = evaluate_model(model, X_test, y_test)
-    print(f"MAE: {mae}")
     save_model(model, os.path.join("models", "model.joblib"))
+    print(f"MAE: {mae}")
 
 if __name__ == "__main__":
     main()

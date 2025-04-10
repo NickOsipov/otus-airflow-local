@@ -22,3 +22,6 @@ upload-model:
 
 train:
 	python3 src/train.py
+
+download-predictions:
+	bash scripts/download-predictions.sh

@@ -12,3 +12,4 @@ airflow-sa.json
 variables.json
 *.joblib
 *.db
+predictions.csv

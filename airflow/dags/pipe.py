@@ -30,7 +30,7 @@ def get_s3_client():
     )
 
 default_args = {
-    'owner': 'airflow',
+    'owner': 'NickOsipov',
     'depends_on_past': False,
     'start_date': datetime(2023, 1, 1),
     'email_on_failure': False,
@@ -82,7 +82,8 @@ def predict(**kwargs):
     os.remove(model_path)  # Удаляем временный файл
 
     print("Predictions made successfully.")
-    
+    print(df[["predictions"]].describe())
+
     return df.to_json()
 
 def save_results_to_storage(**kwargs):
@@ -118,6 +119,7 @@ predict_task = PythonOperator(
     task_id='make_predictions_task',
     python_callable=predict,
     trigger_rule='all_success',
+    dag=dag,
 )
 
 save_results_task = PythonOperator(
