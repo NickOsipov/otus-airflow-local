@@ -1,4 +1,3 @@
-version: '3'
 services:
   postgres:
     image: postgres
@@ -14,7 +13,9 @@ services:
 
   airflow:
     build: .
+    image: airflow-local:latest
     restart: always
+    container_name: airflow
     depends_on:
       - postgres
     ports:
@@ -22,6 +23,7 @@ services:
     volumes:
       - ./airflow/dags:/usr/local/airflow/dags
       - ./airflow/plugins:/root/airflow/plugins
+      - ./config/airflow.cfg:/etc/airflow/config/airflow.cfg
       - ./data:/root/data
       - logs:/usr/local/airflow/logs
 
