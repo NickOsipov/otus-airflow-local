@@ -11,3 +11,4 @@ config/airflow.cfg
 airflow-sa.json
 variables.json
 *.joblib
+*.db
