@@ -6,6 +6,7 @@ import os
 from io import BytesIO
 from datetime import datetime, timedelta
 from airflow import DAG
+from airflow.models import Variable
 from airflow.operators.python_operator import PythonOperator
 import pandas as pd
 import joblib
@@ -13,9 +14,9 @@ import boto3
 import tempfile
 
 # Параметры подключения к Yandex Object Storage
-ACCESS_KEY = '' # <-- Вставьте свой ключ
-SECRET_KEY = '' # <-- Вставьте свой секреьныый ключ
-BUCKET_NAME = '' # <-- Вставьте свой бакет
+ACCESS_KEY = Variable.get("YC_ACCESS_KEY")      # <-- Вставьте свой ключ доступа
+SECRET_KEY = Variable.get("YC_SECRET_KEY")      # <-- Вставьте свой секретный ключ
+BUCKET_NAME = Variable.get("YC_BUCKET_NAME")    # <-- Вставьте имя вашего бакета
 ENDPOINT_URL = 'https://storage.yandexcloud.net'
 
 
@@ -48,9 +49,11 @@ dag = DAG(
 
 def load_data_from_storage(**kwargs):
     s3_client = get_s3_client()
-    response = s3_client.get_object(Bucket=BUCKET_NAME, Key='dataset.csv')
+    response = s3_client.get_object(Bucket=BUCKET_NAME, Key='test.csv')
     data_buffer = BytesIO(response['Body'].read())
-    df = pd.read_csv(data_buffer)
+    
+    df = pd.read_csv(data_buffer, sep=";")
+    print("Data loaded successfully.")
     return df.to_json()
 
 def load_model_from_storage(**kwargs):
@@ -62,6 +65,7 @@ def load_model_from_storage(**kwargs):
         temp_file.write(model_buffer.getvalue())
         temp_file_path = temp_file.name
     
+    print("Model loaded successfully.")
     return temp_file_path
 
 def predict(**kwargs):
@@ -76,6 +80,8 @@ def predict(**kwargs):
     df['predictions'] = predictions
     
     os.remove(model_path)  # Удаляем временный файл
+
+    print("Predictions made successfully.")
     
     return df.to_json()
 
@@ -94,6 +100,7 @@ def save_results_to_storage(**kwargs):
         Key='predictions.csv',
         Body=buffer.getvalue()
     )
+    print("Results saved successfully.")
 
 load_data_task = PythonOperator(
     task_id='load_data_task',
@@ -110,12 +117,13 @@ load_model_task = PythonOperator(
 predict_task = PythonOperator(
     task_id='make_predictions_task',
     python_callable=predict,
-    dag=dag,
+    trigger_rule='all_success',
 )
 
 save_results_task = PythonOperator(
     task_id='save_results_task',
     python_callable=save_results_to_storage,
+    trigger_rule='all_success',
     dag=dag,
 )
 
