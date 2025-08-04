@@ -43,8 +43,9 @@ dag = DAG(
     'batch_prediction_pipeline',
     default_args=default_args,
     description='A batch prediction pipeline',
-    schedule_interval=timedelta(days=1),
-    catchup=False
+    schedule_interval=timedelta(minutes=10),
+    catchup=False,
+    tags=['batch_prediction', 'pipeline'],
 )
 
 def load_data_from_storage(**kwargs):
