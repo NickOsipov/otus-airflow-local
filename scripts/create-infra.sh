@@ -1,7 +1,7 @@
 source .bashrc
 
 # Create a storage bucket
-# yc storage bucket create --name $BUCKET_NAME
+yc storage bucket create --name $BUCKET_NAME
 
 # Create a service account
 SA_ID=$(
@@ -30,5 +30,3 @@ cat > variables.json << EOL
   "YC_BUCKET_NAME": "$BUCKET_NAME"
 }
 EOL
-
-yc storage bucket create --name $BUCKET_NAME
