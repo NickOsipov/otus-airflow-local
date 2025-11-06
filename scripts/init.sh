@@ -6,12 +6,12 @@ airflow db init
 sleep 15
 
 airflow users create \
-    --username airflow \
-    --firstname airflow \
-    --lastname airflow \
+    --username admin \
+    --firstname Admin \
+    --lastname User \
     --role Admin \
-    --email admin@example.org \
-    -p 12345678
+    --email admin@example.com \
+    --password admin
 
 # Запуск шедулера и вебсервера
 airflow scheduler & airflow webserver
