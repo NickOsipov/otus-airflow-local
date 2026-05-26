@@ -1,3 +1,3 @@
-BUCKET_NAME="otus-airflow-bucket"
-FOLDER_ID="b1gtvbvk47oh4lr4r4cb"
-SA_NAME="airflow-sa"
+BUCKET_NAME="otus-airflow-bucket-osipov-2"
+FOLDER_ID="b1gcq77orp7o97v8lnkm"
+SA_NAME="airflow-otus-sa-uploader"

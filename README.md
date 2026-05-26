@@ -28,10 +28,10 @@
     http:\\localhost:8001\
    
     # user
-    airflow
+    admin
 
     # pass
-    12345678
+    admin
     ```
 
 6. Выбрать нужный DAG в UI и нажать Trigger DAG

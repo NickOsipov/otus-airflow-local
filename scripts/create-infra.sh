@@ -15,6 +15,15 @@ yc resource-manager folder add-access-binding $FOLDER_ID \
     --role=storage.editor \
     --subject=serviceAccount:$SA_ID
 
+yc resource-manager folder add-access-binding $FOLDER_ID \
+    --role=storage.viewer \
+    --subject=serviceAccount:$SA_ID
+
+
+yc resource-manager folder add-access-binding $FOLDER_ID \
+    --role=storage.uploader \
+    --subject=serviceAccount:$SA_ID
+
 # Create a key for the service account and get it in JSON format
 yc iam access-key create --service-account-name=airflow-sa --format json > airflow-sa.json
 

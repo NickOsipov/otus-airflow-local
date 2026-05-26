@@ -11,7 +11,7 @@ ENV AIRFLOW__CORE__LOAD_EXAMPLES=False
 
 RUN pip install apache-airflow[postgres]==${AIRFLOW_VERSION}
 RUN pip install SQLAlchemy==1.3.24
-RUN pip install scikit-learn pandas numpy boto3
+RUN pip install scikit-learn==1.3.2 pandas==1.5.3 numpy==1.24.4 boto3==1.37.38
 
 RUN mkdir /project
 COPY scripts/ /project/scripts/
