@@ -1,3 +1,5 @@
-source .bashrc
+#!/bin/bash
+
+source .env
 
 s3cmd put --recursive models/model.joblib s3://$BUCKET_NAME/model.joblib

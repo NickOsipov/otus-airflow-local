@@ -1,4 +1,6 @@
-source .bashrc
+#!/bin/bash
+
+source .env
 
 # Create a storage bucket
 yc storage bucket create --name $BUCKET_NAME
@@ -19,13 +21,12 @@ yc resource-manager folder add-access-binding $FOLDER_ID \
     --role=storage.viewer \
     --subject=serviceAccount:$SA_ID
 
-
 yc resource-manager folder add-access-binding $FOLDER_ID \
     --role=storage.uploader \
     --subject=serviceAccount:$SA_ID
 
 # Create a key for the service account and get it in JSON format
-yc iam access-key create --service-account-name=airflow-sa --format json > airflow-sa.json
+yc iam access-key create --service-account-name=$SA_NAME --format json > airflow-sa.json
 
 # Extract access key and secret key from the JSON output directly using jq
 ACCESS_KEY=$(jq -r .access_key.key_id airflow-sa.json)
